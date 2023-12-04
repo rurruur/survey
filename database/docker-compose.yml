@@ -1,8 +1,9 @@
 version: '3'
+name: survey
 services:
-  mysql:
+  survey_dev:
     image: postgres:latest
-    container_name: survey_dev
+    restart: always
 
     environment:
       - POSTGRES_USER=nakkim
