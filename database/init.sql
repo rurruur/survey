@@ -7,5 +7,6 @@ create table template (
 	description text,
 	status varchar(20) default 'waiting' check (status in ('waiting', 'in_progress', 'completed')),
 	created_at timestamp not null default CURRENT_TIMESTAMP,
-	updated_at timestamp not null default CURRENT_TIMESTAMP
+	updated_at timestamp not null default CURRENT_TIMESTAMP,
+	deleted_at timestamp
 );

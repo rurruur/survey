@@ -25,4 +25,7 @@ export class Template {
 
   @Column({ type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({ type: 'timestamp' })
+  deletedAt: Date;
 }
