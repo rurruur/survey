@@ -40,4 +40,21 @@ export class TemplateService {
 
     return updatedTemplate;
   }
+
+  async updateTemplateStatus(id: number, status: TemplateStatus) {
+    const template = await this.templateRepository.findOneBy({ id });
+
+    if (!template) {
+      throw new BadRequestException('설문지가 존재하지 않습니다.');
+    } else if (template.status === TemplateStatus.COMPLETED) {
+      throw new BadRequestException('완료된 설문지는 상태를 변경할 수 없습니다.');
+    } else if (status === TemplateStatus.WAITING && template.status === TemplateStatus.IN_PROGRESS) {
+      throw new BadRequestException('진행중인 설문지는 대기중으로 변경할 수 없습니다.');
+    }
+
+    const updatedTemplate = await this.templateRepository.save({ ...template, status });
+    this.logger.log(`설문지(id: ${id}) 상태 변경: ${template.status} -> ${status}`);
+
+    return updatedTemplate;
+  }
 }

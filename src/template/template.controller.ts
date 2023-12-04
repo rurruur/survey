@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { TemplateStatus } from '../entity/template.entity';
 import { CreateTemplateDto, CreateTemplateResponseDto } from './dto/create-template.dto';
+import { TemplateStatusDto } from './dto/status.dto';
 import { TemplateDto } from './dto/template.dto';
 import { UpdateTemplateDto } from './dto/update-template.dto';
 import { TemplateService } from './template.service';
@@ -32,5 +33,13 @@ export class TemplateController {
   @ApiResponse({ status: 200, type: TemplateDto })
   async updateTemplate(@Param('id') id: number, @Body() dto: UpdateTemplateDto) {
     return this.templateService.updateTemplate(id, dto);
+  }
+
+  @Patch(':id/status')
+  @ApiOperation({ summary: '설문지 상태 변경' })
+  @ApiBody({ type: TemplateStatusDto })
+  @ApiResponse({ status: 200, type: TemplateDto })
+  async updateTemplateStatus(@Param('id') id: number, @Body() { status }: TemplateStatusDto) {
+    return this.templateService.updateTemplateStatus(id, status);
   }
 }
