@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Template {
+  id: Int!
+  title: String!
+  description: String
+  status: TemplateStatus!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+enum TemplateStatus {
+  WAITING
+  IN_PROGRESS
+  COMPLETED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Query {
+  templateList(status: String): [Template!]!
+}
+
+type Mutation {
+  createTemplate(input: CreateTemplateInput!): Template!
+  updateTemplate(input: UpdateTemplateInput!): Template!
+  updateTemplateStatus(input: UpdateTemplateStatusInput!): Template!
+  deleteTemplate(id: Float!): Boolean!
+}
+
+input CreateTemplateInput {
+  title: String!
+  description: String
+}
+
+input UpdateTemplateInput {
+  id: Int!
+  title: String
+  description: String
+}
+
+input UpdateTemplateStatusInput {
+  id: Int!
+  status: TemplateStatus!
+}

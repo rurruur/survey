@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as dayjs from 'dayjs';
 import { Repository } from 'typeorm';
 import { Template, TemplateStatus } from '../entity/template.entity';
-import { CreateTemplateDto } from './dto/create-template.dto';
-import { UpdateTemplateDto } from './dto/update-template.dto';
+import { CreateTemplateInput } from './input/create-template.input';
+import { UpdateTemplateInput } from './input/update-template.input';
 
 @Injectable()
 export class TemplateService {
@@ -17,16 +17,16 @@ export class TemplateService {
     return templates;
   }
 
-  async createTemplate(dto: CreateTemplateDto) {
-    const template = this.templateRepository.create(dto);
+  async createTemplate({ title, description }: CreateTemplateInput) {
+    const template = this.templateRepository.create({ title, description });
 
-    await this.templateRepository.save(template);
+    const { identifiers } = await this.templateRepository.insert(template);
     this.logger.log(`설문지 생성: ${JSON.stringify(template)}`);
 
-    return template;
+    return this.templateRepository.findOneBy({ id: identifiers[0].id });
   }
 
-  async updateTemplate(id: number, dto: UpdateTemplateDto) {
+  async updateTemplate({ id, title, description }: UpdateTemplateInput) {
     const template = await this.templateRepository.findOneBy({ id });
 
     if (!template) {
@@ -36,7 +36,7 @@ export class TemplateService {
       throw new BadRequestException('대기중 상태의 설문지만 수정할 수 있습니다.');
     }
 
-    const updatedTemplate = await this.templateRepository.save({ ...template, ...dto });
+    const updatedTemplate = await this.templateRepository.save({ ...template, title, description });
     this.logger.log(`설문지 수정: ${JSON.stringify(updatedTemplate)}`);
 
     return updatedTemplate;
@@ -72,5 +72,7 @@ export class TemplateService {
 
     await this.templateRepository.save({ ...template, deletedAt: dayjs() });
     this.logger.log(`설문지(id: ${id}) 삭제`);
+
+    return true;
   }
 }
