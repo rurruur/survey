@@ -1,6 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { TemplateStatus } from '../entity/template.entity';
+import { CreateTemplateDto, CreateTemplateResponseDto } from './dto/create-template.dto';
 import { TemplateDto } from './dto/template.dto';
 import { TemplateService } from './template.service';
 
@@ -14,5 +15,13 @@ export class TemplateController {
   @ApiResponse({ status: 200, type: [TemplateDto] })
   async getTemplateList(@Query('status') status?: TemplateStatus) {
     return this.templateService.getTemplateList(status);
+  }
+
+  @Post()
+  @ApiOperation({ description: '설문지 생성' })
+  @ApiBody({ type: CreateTemplateDto })
+  @ApiResponse({ status: 201, type: CreateTemplateResponseDto })
+  async createTemplate(@Body() dto: CreateTemplateDto) {
+    return this.templateService.createTemplate(dto);
   }
 }
