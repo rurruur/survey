@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mysql:
+    image: postgres:latest
+    container_name: survey_dev
+
+    environment:
+      - POSTGRES_USER=nakkim
+      - POSTGRES_PASSWORD=nakkim@test
+      - POSTGRES_DB=survey_dev
+
+    ports:
+      - 5432:5432
+
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
