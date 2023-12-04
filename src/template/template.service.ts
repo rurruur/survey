@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dayjs from 'dayjs';
 import { Repository } from 'typeorm';
 import { Template, TemplateStatus } from '../entity/template.entity';
 import { CreateTemplateDto } from './dto/create-template.dto';
@@ -56,5 +57,20 @@ export class TemplateService {
     this.logger.log(`설문지(id: ${id}) 상태 변경: ${template.status} -> ${status}`);
 
     return updatedTemplate;
+  }
+
+  async deleteTemplate(id: number) {
+    const template = await this.templateRepository.findOneBy({ id });
+
+    if (!template) {
+      throw new BadRequestException('설문지가 존재하지 않습니다.');
+    } else if (template.status !== TemplateStatus.WAITING) {
+      throw new BadRequestException('대기중 상태의 설문지만 삭제할 수 있습니다.');
+    } else if (template.deletedAt) {
+      throw new BadRequestException('이미 삭제된 설문지입니다.');
+    }
+
+    await this.templateRepository.save({ ...template, deletedAt: dayjs() });
+    this.logger.log(`설문지(id: ${id}) 삭제`);
   }
 }

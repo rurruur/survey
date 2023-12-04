@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { TemplateStatus } from '../entity/template.entity';
 import { CreateTemplateDto, CreateTemplateResponseDto } from './dto/create-template.dto';
@@ -41,5 +41,12 @@ export class TemplateController {
   @ApiResponse({ status: 200, type: TemplateDto })
   async updateTemplateStatus(@Param('id') id: number, @Body() { status }: TemplateStatusDto) {
     return this.templateService.updateTemplateStatus(id, status);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: '설문지 삭제' })
+  @ApiResponse({ status: 200 })
+  async deleteTemplate(@Param('id') id: number) {
+    return this.templateService.deleteTemplate(id);
   }
 }
