@@ -11,7 +11,7 @@ export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 
   @Get()
-  @ApiOperation({ description: '설문지 리스트 조회' })
+  @ApiOperation({ summary: '설문지 리스트 조회' })
   @ApiQuery({ name: 'status', description: '설문지 상태', enum: TemplateStatus, required: false })
   @ApiResponse({ status: 200, type: [TemplateDto] })
   async getTemplateList(@Query('status') status?: TemplateStatus) {
@@ -19,7 +19,7 @@ export class TemplateController {
   }
 
   @Post()
-  @ApiOperation({ description: '설문지 생성' })
+  @ApiOperation({ summary: '설문지 생성' })
   @ApiBody({ type: CreateTemplateDto })
   @ApiResponse({ status: 201, type: CreateTemplateResponseDto })
   async createTemplate(@Body() dto: CreateTemplateDto) {
@@ -27,7 +27,7 @@ export class TemplateController {
   }
 
   @Patch(':id')
-  @ApiOperation({ description: '설문지 내용 수정' })
+  @ApiOperation({ summary: '설문지 내용 수정' })
   @ApiBody({ type: UpdateTemplateDto })
   @ApiResponse({ status: 200, type: TemplateDto })
   async updateTemplate(@Param('id') id: number, @Body() dto: UpdateTemplateDto) {
