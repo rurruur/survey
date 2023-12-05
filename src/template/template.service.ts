@@ -66,7 +66,7 @@ export class TemplateService {
     if (template.inProgress && nextStatus === TemplateStatus.WAITING) {
       throw new BadRequestException('진행중인 설문지는 대기중으로 변경할 수 없습니다.');
     }
-    if (template.questions.length === 0 && nextStatus === TemplateStatus.IN_PROGRESS) {
+    if (!template.questions?.length && nextStatus === TemplateStatus.IN_PROGRESS) {
       throw new BadRequestException('설문지에 질문이 없습니다.');
     }
 
