@@ -46,11 +46,21 @@ export class Template {
   @OneToMany(() => Question, (question) => question.template)
   questions: Question[];
 
+  get waiting() {
+    return this.status === TemplateStatus.WAITING;
+  }
+  get inProgress() {
+    return this.status === TemplateStatus.IN_PROGRESS;
+  }
+  get completed() {
+    return this.status === TemplateStatus.COMPLETED;
+  }
+
   isEditable() {
     if (this.deletedAt) {
       return { isEditable: false, reason: '삭제된 설문지입니다.' };
     }
-    if (this.status !== TemplateStatus.WAITING) {
+    if (!this.waiting) {
       return { isEditable: false, reason: `대기중인 설문지만 수정할 수 있습니다. 현재 설문지 상태: ${this.status}` };
     }
 
