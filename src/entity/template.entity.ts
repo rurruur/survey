@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Question } from './question.entity';
 
 export enum TemplateStatus {
   WAITING = 'waiting',
@@ -39,4 +40,20 @@ export class Template {
   @Field(() => Date, { nullable: true })
   @Column({ type: 'timestamp' })
   deletedAt: Date;
+
+  //
+
+  @OneToMany(() => Question, (question) => question.template)
+  questions: Question[];
+
+  isEditable() {
+    if (this.deletedAt) {
+      return { isEditable: false, reason: '삭제된 설문지입니다.' };
+    }
+    if (this.status !== TemplateStatus.WAITING) {
+      return { isEditable: false, reason: `대기중인 설문지만 수정할 수 있습니다. 현재 설문지 상태: ${this.status}` };
+    }
+
+    return { isEditable: true };
+  }
 }

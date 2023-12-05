@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { QuestionModule } from './question/question.module';
 import { TemplateModule } from './template/template.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { TemplateModule } from './template/template.module';
       namingStrategy: new SnakeNamingStrategy(),
     }),
     TemplateModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

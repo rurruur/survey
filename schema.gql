@@ -23,8 +23,24 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Answer {
+  content: String!
+  score: Int!
+}
+
+type Question {
+  templateId: Int!
+  questionNumber: Int!
+  content: String!
+  answers: [Answer!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
 type Query {
   templateList(status: String): [Template!]!
+  questionList(templateId: Float!): [Question!]!
 }
 
 type Mutation {
@@ -32,6 +48,9 @@ type Mutation {
   updateTemplate(input: UpdateTemplateInput!): Template!
   updateTemplateStatus(input: UpdateTemplateStatusInput!): Template!
   deleteTemplate(id: Float!): Boolean!
+  createQuestion(input: CreateQuestionInput!): Question!
+  updateQuestion(input: UpdateQuestionInput!): Question!
+  deleteQuestion(templateId: Float!, questionNumber: Float!): Boolean!
 }
 
 input CreateTemplateInput {
@@ -48,4 +67,22 @@ input UpdateTemplateInput {
 input UpdateTemplateStatusInput {
   id: Int!
   status: TemplateStatus!
+}
+
+input CreateQuestionInput {
+  templateId: Int!
+  content: String!
+  answers: [AnswerInput!]!
+}
+
+input AnswerInput {
+  content: String!
+  score: Int!
+}
+
+input UpdateQuestionInput {
+  templateId: Int!
+  questionNumber: Int!
+  content: String
+  answers: [AnswerInput!]
 }
