@@ -1,5 +1,5 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, UpdateDateColumn } from 'typeorm';
 import { Template } from './template.entity';
 
 @ObjectType()
@@ -30,15 +30,15 @@ export class Question {
   answers: Answer[];
 
   @Field(() => Date)
-  @Column({ type: 'timestamp' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @Field(() => Date)
-  @Column({ type: 'timestamp' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @Field(() => Date, { nullable: true })
-  @Column({ type: 'timestamp', nullable: true })
+  @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
 
   //

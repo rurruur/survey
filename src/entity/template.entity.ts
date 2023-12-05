@@ -1,5 +1,13 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Question } from './question.entity';
 
 export enum TemplateStatus {
@@ -30,15 +38,15 @@ export class Template {
   status: TemplateStatus;
 
   @Field(() => Date)
-  @Column({ type: 'timestamp' })
+  @CreateDateColumn()
   createdAt: Date;
 
   @Field(() => Date)
-  @Column({ type: 'timestamp' })
+  @UpdateDateColumn()
   updatedAt: Date;
 
   @Field(() => Date, { nullable: true })
-  @Column({ type: 'timestamp' })
+  @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
 
   //

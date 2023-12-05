@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import dayjs from 'dayjs';
 import { Repository } from 'typeorm';
 import { Template, TemplateStatus } from '../entity/template.entity';
 import { CreateTemplateInput } from './input/create-template.input';
@@ -37,10 +36,12 @@ export class TemplateService {
       throw new BadRequestException(reason);
     }
 
-    const updatedTemplate = await this.templateRepository.save({ ...template, title, description });
-    this.logger.log(`설문지 수정: ${JSON.stringify(updatedTemplate)}`);
+    Object.assign(template, { ...(title && { title }), ...(description && { description }) });
 
-    return updatedTemplate;
+    await this.templateRepository.update({ id }, template);
+    this.logger.log(`설문지 수정: ${JSON.stringify(template)}`);
+
+    return template;
   }
 
   /**
@@ -69,10 +70,11 @@ export class TemplateService {
       throw new BadRequestException('설문지에 질문이 없습니다.');
     }
 
-    const updatedTemplate = await this.templateRepository.save({ ...template, status: nextStatus });
+    Object.assign(template, { status: nextStatus });
+    await this.templateRepository.update({ id }, template);
     this.logger.log(`설문지(id: ${id}) 상태 변경: ${template.status} -> ${nextStatus}`);
 
-    return updatedTemplate;
+    return template;
   }
 
   /** 대기중인 설문지만 삭제 가능 */
@@ -87,7 +89,7 @@ export class TemplateService {
       throw new BadRequestException(reason);
     }
 
-    await this.templateRepository.save({ ...template, deletedAt: dayjs() });
+    await this.templateRepository.softDelete({ id });
     this.logger.log(`설문지(id: ${id}) 삭제`);
 
     return true;

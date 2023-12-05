@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import dayjs from 'dayjs';
 import { Repository } from 'typeorm';
 import { Answer, Question } from '../entity/question.entity';
 import { Template } from '../entity/template.entity';
@@ -78,7 +77,7 @@ export class QuestionService {
       throw new BadRequestException(reason);
     }
 
-    await this.questionRepository.save({ ...question, deletedAt: dayjs() });
+    await this.questionRepository.softDelete({ templateId, questionNumber });
     this.logger.log(`설문지 문항 삭제: ${templateId}번 설문지의 ${questionNumber}번 문항`);
 
     return true;
