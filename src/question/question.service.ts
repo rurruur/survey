@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { Repository } from 'typeorm';
 import { Answer, Question } from '../entity/question.entity';
 import { Template } from '../entity/template.entity';
