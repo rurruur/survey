@@ -30,7 +30,7 @@ export class QuestionService {
       throw new BadRequestException(reason);
     }
 
-    const questionNumber = (await this.questionRepository.count({ where: { templateId } })) + 1;
+    const questionNumber = (await this.questionRepository.count({ where: { templateId }, withDeleted: true })) + 1;
     const question = this.questionRepository.create({ templateId, questionNumber, content, options });
 
     await this.questionRepository.insert(question);
