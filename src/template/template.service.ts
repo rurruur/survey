@@ -70,7 +70,7 @@ export class TemplateService {
       throw new BadRequestException('설문지에 질문이 없습니다.');
     }
 
-    Object.assign(template, { status: nextStatus });
+    Object.assign(template, { status: nextStatus, questions: undefined });
     await this.templateRepository.update({ id }, template);
     this.logger.log(`설문지(id: ${id}) 상태 변경: ${template.status} -> ${nextStatus}`);
 
