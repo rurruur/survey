@@ -23,7 +23,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Answer {
+type Option {
   content: String!
   score: Int!
 }
@@ -32,7 +32,7 @@ type Question {
   templateId: Int!
   questionNumber: Int!
   content: String!
-  answers: [Answer!]!
+  options: [Option!]!
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime
@@ -72,10 +72,10 @@ input UpdateTemplateStatusInput {
 input CreateQuestionInput {
   templateId: Int!
   content: String!
-  answers: [AnswerInput!]!
+  options: [OptionInput!]!
 }
 
-input AnswerInput {
+input OptionInput {
   content: String!
   score: Int!
 }
@@ -84,5 +84,5 @@ input UpdateQuestionInput {
   templateId: Int!
   questionNumber: Int!
   content: String
-  answers: [AnswerInput!]
+  options: [OptionInput!]
 }

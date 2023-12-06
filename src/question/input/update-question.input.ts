@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { AnswerInput } from './answer.input';
+import { OptionInput } from './option.input';
 
 @InputType()
 export class UpdateQuestionInput {
@@ -12,6 +12,6 @@ export class UpdateQuestionInput {
   @Field(() => String, { nullable: true })
   content?: string;
 
-  @Field(() => [AnswerInput], { nullable: true })
-  answers?: AnswerInput[];
+  @Field(() => [OptionInput], { nullable: true })
+  options?: OptionInput[];
 }

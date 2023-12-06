@@ -14,13 +14,13 @@ export class QuestionResolver {
   }
 
   @Mutation(() => Question)
-  async createQuestion(@Args('input') { templateId, content, answers }: CreateQuestionInput) {
-    return this.questionService.createQuestion(templateId, content, answers);
+  async createQuestion(@Args('input') { templateId, content, options }: CreateQuestionInput) {
+    return this.questionService.createQuestion(templateId, content, options);
   }
 
   @Mutation(() => Question)
-  async updateQuestion(@Args('input') { templateId, questionNumber, content, answers }: UpdateQuestionInput) {
-    return this.questionService.updateQuestion(templateId, questionNumber, content, answers);
+  async updateQuestion(@Args('input') { templateId, questionNumber, content, options }: UpdateQuestionInput) {
+    return this.questionService.updateQuestion(templateId, questionNumber, content, options);
   }
 
   @Mutation(() => Boolean)

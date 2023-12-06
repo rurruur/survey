@@ -3,7 +3,7 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToO
 import { Template } from './template.entity';
 
 @ObjectType()
-export class Answer {
+export class Option {
   @Field(() => String)
   content: string;
   @Field(() => Int)
@@ -25,9 +25,9 @@ export class Question {
   @Column({ type: 'text' })
   content: string;
 
-  @Field(() => [Answer])
+  @Field(() => [Option])
   @Column({ type: 'jsonb' })
-  answers: Answer[];
+  options: Option[];
 
   @Field(() => Date)
   @CreateDateColumn()

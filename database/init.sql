@@ -16,7 +16,7 @@ create table question (
 	template_id serial not null,
 	question_number int not null,
 	content text not null,
-	answers jsonb not null,
+	options jsonb not null,
 	created_at timestamp not null default CURRENT_TIMESTAMP,
 	updated_at timestamp not null default CURRENT_TIMESTAMP,
 	deleted_at timestamp,

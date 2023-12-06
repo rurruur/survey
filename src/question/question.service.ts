@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Answer, Question } from '../entity/question.entity';
+import { Option, Question } from '../entity/question.entity';
 import { Template } from '../entity/template.entity';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class QuestionService {
   }
 
   /** 설문지 상태가 대기중인 경우만 생성 가능 */
-  async createQuestion(templateId: number, content: string, answers: Answer[]) {
+  async createQuestion(templateId: number, content: string, options: Option[]) {
     const template = await this.templateRepository.findOneBy({ id: templateId });
     if (!template) {
       throw new BadRequestException('설문지가 존재하지 않습니다.');
@@ -31,7 +31,7 @@ export class QuestionService {
     }
 
     const questionNumber = (await this.questionRepository.count({ where: { templateId } })) + 1;
-    const question = this.questionRepository.create({ templateId, questionNumber, content, answers });
+    const question = this.questionRepository.create({ templateId, questionNumber, content, options });
 
     await this.questionRepository.insert(question);
     this.logger.log(`설문지 문항 생성: ${JSON.stringify(question)}`);
@@ -40,7 +40,7 @@ export class QuestionService {
   }
 
   /** 설문지 상태가 대기중이고 문항이 삭제되지 않은 경우만 수정 가능 */
-  async updateQuestion(templateId: number, questionNumber: number, content?: string, answers?: Answer[]) {
+  async updateQuestion(templateId: number, questionNumber: number, content?: string, options?: Option[]) {
     const [question] = await this.questionRepository.find({
       relations: ['template'],
       where: { templateId, questionNumber },
@@ -54,7 +54,7 @@ export class QuestionService {
       throw new BadRequestException(reason);
     }
 
-    Object.assign(question, { ...(content && { content }), ...(answers && { answers }) });
+    Object.assign(question, { ...(content && { content }), ...(options && { options }) });
 
     await this.questionRepository.update({ templateId, questionNumber }, question);
     this.logger.log(`설문지 문항 수정: ${JSON.stringify(question)}`);
