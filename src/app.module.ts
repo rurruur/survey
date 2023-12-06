@@ -3,8 +3,6 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { QuestionModule } from './question/question.module';
 import { TemplateModule } from './template/template.module';
 
@@ -29,7 +27,5 @@ import { TemplateModule } from './template/template.module';
     TemplateModule,
     QuestionModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
