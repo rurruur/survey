@@ -23,3 +23,16 @@ create table question (
 	primary key (template_id, question_number),
 	foreign key (template_id) references template(id)
 );
+
+-- 설문지 답변 테이블 생성
+create table respond (
+	id serial not null primary key,
+	template_id int not null,
+	answers jsonb not null,
+	is_submitted boolean not null default false,
+	total_score int not null default 0,
+	created_at timestamp not null default CURRENT_TIMESTAMP,
+	updated_at timestamp not null default CURRENT_TIMESTAMP,
+	deleted_at timestamp,
+	foreign key (template_id) references template(id)
+)
