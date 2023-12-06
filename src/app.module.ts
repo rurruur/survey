@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { QuestionModule } from './question/question.module';
+import { RespondModule } from './respond/respond.module';
 import { TemplateModule } from './template/template.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { TemplateModule } from './template/template.module';
     }),
     TemplateModule,
     QuestionModule,
+    RespondModule,
   ],
 })
 export class AppModule {}

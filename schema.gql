@@ -38,9 +38,27 @@ type Question {
   deletedAt: DateTime
 }
 
+type Answer {
+  questionNumber: Int!
+  content: String!
+  score: Int!
+}
+
+type Respond {
+  id: Int!
+  templateId: Int!
+  answers: [Answer!]!
+  isSubmitted: Boolean!
+  totalScore: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
 type Query {
   templateList(status: String): [Template!]!
   questionList(templateId: Float!): [Question!]!
+  respondList(templateId: Float!): [Respond!]!
 }
 
 type Mutation {
