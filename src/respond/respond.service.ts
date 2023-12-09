@@ -1,8 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Respond } from '../entity/respond.entity';
 import { Template } from '../entity/template.entity';
+import { AnswerInput } from './input/create-respond.input';
 
 @Injectable()
 export class RespondService {
@@ -27,5 +28,20 @@ export class RespondService {
     });
 
     return responds;
+  }
+
+  async createRespond(templateId: number, answers: AnswerInput[]) {
+    const [template] = await this.templateRepository.find({ relations: ['questions'], where: { id: templateId } });
+    if (!template) {
+      throw new BadRequestException('설문지가 존재하지 않습니다.');
+    }
+    if (!template.inProgress) {
+      throw new BadRequestException('진행중인 설문지가 아닙니다.');
+    }
+
+    const respond = this.respondRepository.create({ templateId, answers });
+    await this.respondRepository.insert(respond);
+
+    return respond;
   }
 }

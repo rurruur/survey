@@ -14,13 +14,10 @@ import { Template } from './template.entity';
 @ObjectType()
 export class Answer {
   @Field(() => Int)
-  questionNumber: string;
+  questionNumber: number;
 
   @Field(() => String)
   content: string;
-
-  @Field(() => Int)
-  score: number;
 }
 
 @ObjectType()

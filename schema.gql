@@ -41,7 +41,6 @@ type Question {
 type Answer {
   questionNumber: Int!
   content: String!
-  score: Int!
 }
 
 type Respond {
@@ -69,6 +68,7 @@ type Mutation {
   createQuestion(input: CreateQuestionInput!): Question!
   updateQuestion(input: UpdateQuestionInput!): Question!
   deleteQuestion(templateId: Float!, questionNumber: Float!): Boolean!
+  createRespond(input: CreateRespondInput!): Respond!
 }
 
 input CreateTemplateInput {
@@ -103,4 +103,14 @@ input UpdateQuestionInput {
   questionNumber: Int!
   content: String
   options: [OptionInput!]
+}
+
+input CreateRespondInput {
+  templateId: Int!
+  answers: [AnswerInput!]!
+}
+
+input AnswerInput {
+  questionNumber: Int!
+  content: String!
 }
