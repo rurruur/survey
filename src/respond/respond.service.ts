@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Respond } from '../entity/respond.entity';
 import { Template } from '../entity/template.entity';
-import { AnswerInput } from './input/create-respond.input';
+import { AnswerInput } from './input/answer.input';
 
 @Injectable()
 export class RespondService {
@@ -41,6 +41,21 @@ export class RespondService {
 
     const respond = this.respondRepository.create({ templateId, answers });
     await this.respondRepository.insert(respond);
+
+    return respond;
+  }
+
+  async updateRespond(respondId: number, answers: AnswerInput[]) {
+    const respond = await this.respondRepository.findOneBy({ id: respondId });
+    if (!respond) {
+      throw new BadRequestException('답변이 존재하지 않습니다.');
+    }
+    if (respond.isSubmitted) {
+      throw new BadRequestException('이미 제출된 답변입니다.');
+    }
+
+    Object.assign(respond, { answers });
+    await this.respondRepository.update({ id: respondId }, respond);
 
     return respond;
   }

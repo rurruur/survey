@@ -1,6 +1,7 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Respond } from '../entity/respond.entity';
 import { CreateRespondInput } from './input/create-respond.input';
+import { UpdateRespondInput } from './input/update-respond.input';
 import { RespondService } from './respond.service';
 
 // - 답변을 한 사용자의 정보는 저장하지 않는다.
@@ -24,6 +25,11 @@ export class RespondResolver {
   @Mutation(() => Respond)
   async createRespond(@Args('input') { templateId, answers }: CreateRespondInput) {
     return this.respondService.createRespond(templateId, answers);
+  }
+
+  @Mutation(() => Respond)
+  async updateRespond(@Args('input') { respondId, answers }: UpdateRespondInput) {
+    return this.respondService.updateRespond(respondId, answers);
   }
 
   @Mutation(() => Boolean)
