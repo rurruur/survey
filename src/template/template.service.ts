@@ -54,9 +54,6 @@ export class TemplateService {
     if (!template) {
       throw new BadRequestException('설문지가 존재하지 않습니다.');
     }
-    if (template.deletedAt) {
-      throw new BadRequestException('삭제된 설문지는 상태를 변경할 수 없습니다.');
-    }
     if (template.completed) {
       throw new BadRequestException('완료된 설문지는 상태를 변경할 수 없습니다.');
     }
