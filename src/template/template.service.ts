@@ -16,6 +16,15 @@ export class TemplateService {
     return templates;
   }
 
+  async getTemplateDetail(id: number) {
+    const template = await this.templateRepository.findOne({ relations: ['questions'], where: { id } });
+    if (!template) {
+      throw new BadRequestException('설문지가 존재하지 않습니다.');
+    }
+
+    return template;
+  }
+
   async createTemplate({ title, description }: CreateTemplateInput) {
     const template = this.templateRepository.create({ title, description });
     const { identifiers } = await this.templateRepository.insert(template);

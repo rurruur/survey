@@ -14,6 +14,11 @@ export class TemplateResolver {
     return this.templateService.getTemplateList(status);
   }
 
+  @Query(() => Template)
+  async templateDetail(@Args('id') id: number) {
+    return this.templateService.getTemplateDetail(id);
+  }
+
   @Mutation(() => Template)
   async createTemplate(@Args('input') createTemplateInput: CreateTemplateInput) {
     return this.templateService.createTemplate(createTemplateInput);

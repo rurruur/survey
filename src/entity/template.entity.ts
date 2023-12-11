@@ -51,6 +51,7 @@ export class Template {
 
   //
 
+  @Field(() => [Question], { nullable: true })
   @OneToMany(() => Question, (question) => question.template)
   questions: Question[];
 

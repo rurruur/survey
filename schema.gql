@@ -10,6 +10,7 @@ type Template {
   createdAt: DateTime!
   updatedAt: DateTime!
   deletedAt: DateTime
+  questions: [Question!]
 }
 
 enum TemplateStatus {
@@ -56,6 +57,7 @@ type Respond {
 
 type Query {
   templateList(status: String): [Template!]!
+  templateDetail(id: Float!): Template!
   questionList(templateId: Float!): [Question!]!
   respondList(templateId: Float!): [Respond!]!
 }
