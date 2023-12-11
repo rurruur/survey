@@ -47,12 +47,15 @@ export class RespondService {
   }
 
   async updateRespond(respondId: number, answers: AnswerInput[]) {
-    const respond = await this.respondRepository.findOneBy({ id: respondId });
+    const respond = await this.respondRepository.findOne({ relations: ['template'], where: { id: respondId } });
     if (!respond) {
       throw new BadRequestException('답변이 존재하지 않습니다.');
     }
     if (respond.isSubmitted) {
       throw new BadRequestException('이미 제출된 답변입니다.');
+    }
+    if (respond.template.completed) {
+      throw new BadRequestException('완료된 설문의 답변은 수정할 수 없습니다.');
     }
 
     Object.assign(respond, { answers });
