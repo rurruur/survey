@@ -44,4 +44,45 @@ export class RespondService {
 
     return respond;
   }
+
+  async submitRespond(respondId: number) {
+    const respond = await this.respondRepository.findOneBy({ id: respondId });
+    if (!respond) {
+      throw new BadRequestException('답변이 존재하지 않습니다.');
+    }
+    if (respond.isSubmitted) {
+      throw new BadRequestException('이미 제출된 답변입니다.');
+    }
+
+    const template = await this.templateRepository.findOne({
+      relations: ['questions'],
+      where: { id: respond.templateId },
+    });
+    if (!template) {
+      throw new BadRequestException('설문지가 존재하지 않습니다.');
+    }
+    if (!template.inProgress) {
+      throw new BadRequestException('진행중인 설문지가 아닙니다.');
+    }
+
+    const answers = respond.answers.map((answer) => {
+      const question = template.questions.find((q) => q.questionNumber === answer.questionNumber);
+      if (!question) {
+        throw new BadRequestException(`질문이 존재하지 않습니다. (questionNumber: ${answer.questionNumber})})`);
+      }
+
+      const option = question.options.find((o) => o.content === answer.content);
+      if (!option) {
+        throw new BadRequestException(`선택지가 존재하지 않습니다. (content: ${answer.content})`);
+      }
+
+      return { ...answer, score: option.score };
+    });
+
+    respond.isSubmitted = true;
+    respond.totalScore = answers.reduce((acc, cur) => acc + cur.score, 0);
+    await this.respondRepository.save(respond);
+
+    return respond;
+  }
 }

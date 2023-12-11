@@ -25,4 +25,11 @@ export class RespondResolver {
   async createRespond(@Args('input') { templateId, answers }: CreateRespondInput) {
     return this.respondService.createRespond(templateId, answers);
   }
+
+  @Mutation(() => Boolean)
+  async submitRespond(@Args('respondId') respondId: number) {
+    await this.respondService.submitRespond(respondId);
+
+    return true;
+  }
 }
