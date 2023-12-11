@@ -107,12 +107,19 @@ export class RespondService {
   }
 
   async deleteRespond(respondId: number) {
-    const respond = await this.respondRepository.findOne({ where: { id: respondId }, withDeleted: true });
+    const respond = await this.respondRepository.findOne({
+      relations: ['template'],
+      where: { id: respondId },
+      withDeleted: true,
+    });
     if (!respond) {
       throw new BadRequestException('답변이 존재하지 않습니다.');
     }
     if (respond.deletedAt) {
       throw new BadRequestException('이미 삭제된 답변입니다.');
+    }
+    if (respond.template.completed) {
+      throw new BadRequestException('완료된 설문의 답변은 삭제할 수 없습니다.');
     }
 
     await this.respondRepository.softDelete({ id: respondId });
