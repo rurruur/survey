@@ -71,6 +71,7 @@ type Mutation {
   createRespond(input: CreateRespondInput!): Respond!
   updateRespond(input: UpdateRespondInput!): Respond!
   submitRespond(respondId: Float!): Respond!
+  deleteRespond(respondId: Float!): Boolean!
 }
 
 input CreateTemplateInput {

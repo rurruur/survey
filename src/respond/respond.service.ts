@@ -105,4 +105,18 @@ export class RespondService {
 
     return respond;
   }
+
+  async deleteRespond(respondId: number) {
+    const respond = await this.respondRepository.findOne({ where: { id: respondId }, withDeleted: true });
+    if (!respond) {
+      throw new BadRequestException('답변이 존재하지 않습니다.');
+    }
+    if (respond.deletedAt) {
+      throw new BadRequestException('이미 삭제된 답변입니다.');
+    }
+
+    await this.respondRepository.softDelete({ id: respondId });
+
+    return true;
+  }
 }

@@ -36,4 +36,9 @@ export class RespondResolver {
   async submitRespond(@Args('respondId') respondId: number) {
     return this.respondService.submitRespond(respondId);
   }
+
+  @Mutation(() => Boolean)
+  async deleteRespond(@Args('respondId') respondId: number) {
+    return this.respondService.deleteRespond(respondId);
+  }
 }
