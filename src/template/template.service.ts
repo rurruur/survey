@@ -77,6 +77,12 @@ export class TemplateService {
     }
 
     Object.assign(template, { status: nextStatus, questions: undefined });
+
+    if (nextStatus === TemplateStatus.IN_PROGRESS) {
+      template.startDate = new Date();
+    } else if (nextStatus === TemplateStatus.COMPLETED) {
+      template.endDate = new Date();
+    }
     await this.templateRepository.update({ id }, template);
     this.logger.log(`설문지(id: ${id}) 상태 변경: ${template.status} -> ${nextStatus}`);
 

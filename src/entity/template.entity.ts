@@ -37,6 +37,14 @@ export class Template {
   @Column({ type: 'enum', enum: TemplateStatus })
   status: TemplateStatus;
 
+  @Field(() => Date, { nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
+  startDate: Date;
+
+  @Field(() => Date, { nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
+  endDate: Date;
+
   @Field(() => Date)
   @CreateDateColumn()
   createdAt: Date;
