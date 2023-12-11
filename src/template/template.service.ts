@@ -76,7 +76,7 @@ export class TemplateService {
 
   /** 대기중인 설문지만 삭제 가능 */
   async deleteTemplate(id: number) {
-    const template = await this.templateRepository.findOneBy({ id });
+    const template = await this.templateRepository.findOne({ where: { id }, withDeleted: true });
     if (!template) {
       throw new BadRequestException('설문지가 존재하지 않습니다.');
     }

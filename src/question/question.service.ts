@@ -67,6 +67,7 @@ export class QuestionService {
     const [question] = await this.questionRepository.find({
       relations: ['template'],
       where: { templateId, questionNumber },
+      withDeleted: true,
     });
     if (!question) {
       throw new BadRequestException('문항이 존재하지 않습니다.');
