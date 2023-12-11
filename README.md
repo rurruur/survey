@@ -1,5 +1,7 @@
 ## 설문조사 서비스
 
+[요구사항](https://maumlab.notion.site/3-9ad4007107ab4d6da0c10325aac1abb2)
+
 ### DB 설정
 
 - [init.sql](database/init.sql)
