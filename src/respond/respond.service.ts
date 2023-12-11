@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import _ from 'lodash';
 import { Repository } from 'typeorm';
 import { Respond } from '../entity/respond.entity';
 import { Template } from '../entity/template.entity';
@@ -78,6 +79,10 @@ export class RespondService {
     }
     if (!template.inProgress) {
       throw new BadRequestException('진행중인 설문지가 아닙니다.');
+    }
+
+    if (_.uniqBy(respond.answers, 'questionNumber').length !== _.uniqBy(template.questions, 'questionNumber').length) {
+      throw new BadRequestException('답변이 완료되지 않았습니다.');
     }
 
     const answers = respond.answers.map((answer) => {
