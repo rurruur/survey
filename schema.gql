@@ -70,7 +70,7 @@ type Mutation {
   deleteQuestion(templateId: Float!, questionNumber: Float!): Boolean!
   createRespond(input: CreateRespondInput!): Respond!
   updateRespond(input: UpdateRespondInput!): Respond!
-  submitRespond(respondId: Float!): Boolean!
+  submitRespond(respondId: Float!): Respond!
 }
 
 input CreateTemplateInput {

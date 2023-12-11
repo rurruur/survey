@@ -32,10 +32,8 @@ export class RespondResolver {
     return this.respondService.updateRespond(respondId, answers);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Respond)
   async submitRespond(@Args('respondId') respondId: number) {
-    await this.respondService.submitRespond(respondId);
-
-    return true;
+    return this.respondService.submitRespond(respondId);
   }
 }
