@@ -11,6 +11,12 @@
 2. `docker-compose -f database/docker-compose.yml up -d`
 3. `npm run start:dev`
 
+### api-spec
+
+[api-spec.json](api-spec.json) 파일을 import하여 사용
+
+- Insomnia 기준 `Create` - `File` - `해당 파일 선택` -> survey라는 콜렉션 생성됨
+
 ### 기능
 
 #### 설문지 CRUD
